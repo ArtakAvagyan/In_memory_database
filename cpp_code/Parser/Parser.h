@@ -1,9 +1,3 @@
-/*
- *
- *
- *
- * */
-
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -44,17 +38,6 @@ private:
 	static std::string addString(Redis*, const std::vector<std::string>&);
 	static std::string getString(Redis*, const std::vector<std::string>&);
 	static std::string concatString(Redis*, const std::vector<std::string>&);
-
-//	static std::string ereseMap(Redis* , const std::vector<std::string>&);
-/*	static std::string creatQueue(Redis*, const std::vector<std::string>&);
-	static std::string updetList(Redis* ,const std::vector<std::string>&);
-	static std::string updetSet(Redis*, const std::vector<std::string>&);
-	static std::string updetQueue(Redis*, const std::vector<std::string>&);
-	static std::string deleteList(Redis*, const std::vector<std::string>&);
-	static std::string deleteSet(Redis*, const std::vector<std::string>&);
-	static std::string deleteQueue(Redis*, const std::vector<std::string>&);*/
-//	static std::string getSet(Redis*, const std::vector<std::string>&);
-//	static std::string getQueue(Redis*, const std::vector<std::string>&);
 private:
 	std::vector<std::string> keywordParser(std::string&)const;
 private:
