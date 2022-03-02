@@ -1,0 +1,12 @@
+# executable files
+*.out
+*.exe
+
+#files for testing
+test.cpp
+
+#vim swp files if exist
+.*.swp
+
+#mac empty directories
+.DS_Store
