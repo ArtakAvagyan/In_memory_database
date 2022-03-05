@@ -10,10 +10,10 @@ Redis::Redis(){
 		_function.insert(UTIL::SET::PRINT , Redis::printSet);
 		_function.insert(UTIL::SET::RPRINT , Redis::rPrintSet);
 		_function.insert(UTIL::SET::ERASE_F, Redis::ereseSet);
-	/*	_function.insert(UTIL::MAP::PRINT_REV, Redis::rPrintMap);
-		_function.insert(UTIL::MAP::PRINT , Redis::printMap);
-		_function.insert(UTIL::MAP::INSERT , Redis::insertMap);
-		_function.insert(UTIL::MAP::DEL_ELEM, Redis::delMap);*/
+		_function.insert(UTIL::PQ::PRINT_REV, Redis::rPrintPQ);
+		_function.insert(UTIL::MAP::PRINT , Redis::printPQ);
+		_function.insert(UTIL::MAP::INSERT , Redis::insertPQ);
+		_function.insert(UTIL::MAP::DEL_ELEM, Redis::delPQ);
 		_function.insert(UTIL::STRING::ADD_STR, Redis::addString);
 		_function.insert(UTIL::STRING::GET_VAL, Redis::getString);
 		_function.insert(UTIL::STRING::CONCAT, Redis::concatString);
@@ -165,4 +165,51 @@ String Redis::concatString(Redis* redis, const Vector<String>& tokens)
 	return redis->_string[tokens[UTIL::NAME]] += redis->_string[tokens[UTIL::PARAM]];
 }
 
+String Redis::printPQ(Redis* redis, const Vector<String>& tokens)
+{
+	 String str ;
+	 size_t count{1};
+	 for (auto it : redis->_pq[tokens[UTIL::NAME]])
+	 {
+		if (it == "") {continue;}
+		str += UTIL::to_String(count++);
+		str += " -> ";
+		str += it ;
+		str.push_back('\n');
+	 }
+	 return str;
+}
 
+String Redis::rPrintPQ(Redis* redis, const Vector<String>& tokens)
+{
+	 String str ;
+	 size_t count{1};
+	 for (auto it = redis->_pq[tokens[UTIL::NAME]].end() ; it != resalt.begin() ;)
+	 {
+		--it;
+		if (*it == "") {continue;}
+		str += UTIL::to_String(count++);
+		str += " -> ";
+		str += *it ;
+		str.push_back('\n');
+	 }
+	 return str;
+
+}
+
+
+String Redis::insertPQ(Redis* redis, const Vector<String>& tokens)
+{
+	if (4 > tokens.getSize()) { return "don't valid argument";}
+	for ( size_t i = UTIL::PARAM ; i < tokens.getSize() ; i+=2 )
+	{
+		redis->_pq[tokens[UTIL::NAME]].insert(tokens[i],tokens[i+1]);
+	}
+	return {"Ok"};
+}
+
+String Redis::insertPQ(Redis* redis, const Vector<String>& tokens)
+{
+		redis->_pq[tokens[UTIL::NAME]].erase(redis->_pq[tokens[UTIL::NAME]].begin());
+	return {"Ok"};
+}

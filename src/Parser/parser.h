@@ -35,7 +35,7 @@ public:
 public:
 	HashTable<String, RBTree<String>> _set;
 	HashTable<String, List<String>> _list;
-	HashTable<String, HashTable<String, String>> _map;
+	HashTable<String, PQueue<pair<String,String>>> _pq;
 	HashTable<String, String> _string;
 	HashTable<String, String(*) (Redis*, const Vector<String>&)> _function;
 
@@ -48,10 +48,10 @@ private:
 	static String printSet(Redis*, const Vector<String>&);
 	static String rPrintSet(Redis*, const Vector<String>&);
 	static String ereseSet(Redis*, const Vector<String>&);
-	static String insertMap(Redis*, const Vector<String>&);
-	static String printMap(Redis*, const Vector<String>&);
-	static String rPrintMap(Redis*, const Vector<String>&);
-	static String delMap(Redis*, const Vector<String>&);
+	static String insertPQ(Redis*, const Vector<String>&);
+	static String printPQ(Redis*, const Vector<String>&);
+	static String rPrintPQ(Redis*, const Vector<String>&);
+	static String delPQ(Redis*, const Vector<String>&);
 	static String addString(Redis*, const Vector<String>&);
 	static String getString(Redis*, const Vector<String>&);
 	static String concatString(Redis*, const Vector<String>&);

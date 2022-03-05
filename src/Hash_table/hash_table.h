@@ -5,6 +5,7 @@
 #include "../Forward_list/forward_list.h"
 #include "../String/String.h"
 #include "../Vector/vector.h"
+#include "../PQueue/PQueue.h"
 
 #include <functional>
 
@@ -25,6 +26,26 @@ struct pair
 	pair(const pair&)=default;
 	pair& operator=(const pair&)=default;
 	pair(pair&&) = delete;
+	bool operator<(const pair& other)const
+	{
+		if (first == other.first)
+		{
+			return second < other.second;
+		}
+		return first < other.first;
+	}
+	bool operator>(const pair& other)const
+	{
+		if (first == other.first)
+		{
+			return second > other.second;
+		}
+		return first > other.first;
+	}
+	bool operator>(const pair& other)const
+	{
+		return ( first == other.first && second == other.second );
+	}
 };
 
 

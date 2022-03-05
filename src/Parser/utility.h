@@ -17,18 +17,16 @@ namespace UTIL
 	{
 		const String INSERT 	{ "SADD" };
 		const String PRINT	{ "SMEMBERS" };
-		const String RPRINT	{ "RSMEMBERS" };/*TAZA*/
+		const String RPRINT	{ "RSMEMBERS" };
 		const String ERASE_F	{ "SPOP" };
-		const String RAND_PRINT	{ "SRANDMEMBER" }; /*NOVU*/
 	}
-/*	namespace MAP
+	namespace PQ
 	{
 		const String PRINT_REV	{ "ZREVRANGE" };
 		const String DEL_ELEM	{ "ZREM" };
-		const String PRINT_SIM	{ "ZINTER" };
 		const String INSERT	{ "ZADD" };
 		const String PRINT 	{ "ZRENGE" };
-	}*/
+	}
 	namespace STRING
 	{
 	
