@@ -1,7 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## smth new is comming
-
 # Compiling and running with only g++ or gcc
 
 Also I can suggest running on MSVC integrated system,or Clang++(7.1.0 or higher) but we tested code using g++ compiler.
@@ -28,7 +26,6 @@ RB tree is kind of complicated height-balancing binary search tree. The re-balan
 
 # HASH-TABLE 
 
-...
 
 # CONTRIBUTING
 
