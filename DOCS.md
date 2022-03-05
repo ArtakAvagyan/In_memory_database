@@ -10,7 +10,9 @@ See more in official website https://redis.io/documentation.
 
  
 # MAIN IDEA
-As you can see here: https://redis.io/community Redis appreciates improvements, bug fixes even features related we decided to implement basic functionality with stream sockets/ up to 5 users via network. You can change ip_address in src/client_server/client.cpp && src/client_server/server.cpp before building.
+As you can see here: https://redis.io/community Redis appreciates improvements, bug fixes even features related we decided to implement
+basic functionality with stream sockets/ up to 5 users via network. You can change ip_address in src/client_server/client.cpp
+&& src/client_server/server.cpp before building.
 
 # HOW TO USE (DATA TYPES)
 
@@ -20,6 +22,6 @@ SET supportes SADD, SMEMBERS, RSMEMBERS, and SPOP.
 
 STRING supportes APPEND, SET and GET. 
 
-And finally Priority_queue supports ZREVRENGE, ZREM, ZADD, ZRENGE.
+And finally PRIORITY_QUEUE supports ZREVRENGE, ZREM, ZADD, ZRENGE.
 
-**Info about data types in details you can see in README.md**
+** Info about data types in details you can see in README.md **
