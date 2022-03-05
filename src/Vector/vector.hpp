@@ -1,3 +1,5 @@
+#include "vector.h"
+
 template<typename T>
 Vector<T>::Vector() : m_size{}, m_cap{}, m_arr{ nullptr }
 {}
@@ -104,23 +106,34 @@ Vector<T> Vector<T>::operator+(const Vector& oth) {
 }
 
 template <typename T>
-T& Vector<T>::at(const int iter) const {
-	if (iter >= 0 && iter < m_size) {
-		return m_arr[iter];
+const T& Vector<T>::at(const int pos) const {
+	if (pos >= 0 && pos < m_size) {
+		return m_arr[pos];
 	}
 	else {
 		throw std::out_of_range("Segmentation fault - run time error\n");
 	}
 }
 
-template<typename T>
-T& Vector<T>::operator[](const int iter) const {
-	if (iter >= 0 && iter < m_size) {
-		return m_arr[iter];
-	}
-	else {
+template <typename T>
+T& Vector<T>::at(int pos)
+{
+	if(pos >= 0 && pos < m_size) {
+		return m_arr[pos];
+	} else {
 		throw std::out_of_range("Segmentation fault - run time error\n");
 	}
+}
+
+template<typename T>
+const T& Vector<T>::operator[](const int pos) const {
+		return m_arr[pos];
+}
+
+template <typename T>
+T& Vector<T>::operator[](int pos)
+{
+	return m_arr[pos];
 }
 
 template<typename T>
@@ -172,18 +185,16 @@ inline void Vector<T>::erase(int size_pos) {
 }
 
 template <typename T>
-void Vector<T>::resize(int s, const T& elem) {
+void Vector<T>::resize(const size_t s,const T& elem) {
 	if (s < m_size) {
 		m_size = s;
-	}
-	else {
+	} else {
 		if (s <= m_cap) {
 			for (int i = m_size; i < s; ++i) {
 				m_arr[i] = elem;
 			}
 			m_size = s;
-		}
-		else {
+		} else {
 			T* tmp = new T[s];
 			for (int i = 0; i < m_size; ++i) {
 				tmp[i] = m_arr[i];
@@ -199,15 +210,15 @@ void Vector<T>::resize(int s, const T& elem) {
 }
 
 template <typename T>
-int Vector<T>::getCapacity() const {
+size_t Vector<T>::getCapacity() const {
 	return m_cap;
 }
 
 template <typename T>
-int Vector<T>::getSize() const {
+size_t Vector<T>::getSize() const {
 	return m_size;
 }
-
+/* Iterators */
 template <typename T>
 Vector<T>::iterator::iterator(T* ptr) :_pointer{ ptr } {}
 
@@ -252,6 +263,12 @@ typename Vector<T>::iterator Vector<T>::iterator::operator+(int pos)const
 	typename Vector<T>::iterator tmp = *this;
 	tmp += pos;
 	return tmp;
+}
+
+template <typename T>
+typename Vector<T>::iterator Vector<T>::iterator::operator-(int count) const
+{
+	return this->_pointer - count;
 }
 
 template <typename T>

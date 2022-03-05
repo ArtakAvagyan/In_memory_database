@@ -84,7 +84,7 @@ void List<T>::push_back(const T& elem)&
 {
 	if (!_head)
 	{
-		Node* tmp = new List<T>::Node (0);
+		Node* tmp = new List<T>::Node (T());
 		_head = new List<T>::Node(elem,tmp);
 		tmp->_prev = _head ;
 		_tail = _head;
@@ -99,7 +99,7 @@ void List<T>::push_front(const T& elem)&
 {
 	if (!_head)
 	{
-		Node* tmp = new List<T>::Node(0);
+		Node* tmp = new List<T>::Node(T());
 		_head = new List<T>::Node(elem,tmp);
 		tmp->_prev = _head ;
 		_tail = _head;

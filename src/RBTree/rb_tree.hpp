@@ -131,26 +131,38 @@ void    RBTree<T>::rightRotate(Node *x)
     x->parrent = y;
 }
 
+
 template <typename T>
-void    RBTree<T>::printBT(const std::string& prefix, const Node* node, bool isLeft)
+void RBTree<T>::printBT(const Node* node,Vector<T>& res)
 {
-    if( node != nullptr )
-    {
-        std::cout << prefix;
+	if (!node) {return;}
+	printBT(node->l_child,res);
+	res.push_back(node->value);
+	printBT(node->r_child,res);
+}
 
-        std::cout << (isLeft ? "├──" : "└──" );
 
-        // print the value of the node
-        std::cout << node->value << std::endl;
-
-        // enter the next tree level - left and right branch
-        printBT( prefix + (isLeft ? "│   " : "    "), node->l_child, true);
-        printBT( prefix + (isLeft ? "│   " : "    "), node->r_child, false);
-    }
+template <typename T>
+Vector<T> RBTree<T>::print()
+{
+	Vector<T> s;
+	printBT(root, s);
+	return s;
 }
 
 template <typename T>
-void RBTree<T>::printBT(const Node* node)
+void RBTree<T>::clear()
 {
-    printBT("", node, false);    
+	clear(root);
+	root = nullptr;
+}
+
+
+template <typename T>
+void RBTree<T>::clear(Node * cur)
+{
+	if (!cur) {return ;}
+	clear(cur->l_child);
+	clear(cur->r_child);
+	delete cur;
 }

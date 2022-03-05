@@ -10,7 +10,7 @@ class String
 public:
       String();
       explicit String(size_t , char ch = '\0');
-      explicit String(const char*);
+      String(const char*);
       String(const String&);
       String(String&&)noexcept;
       ~String();
@@ -34,7 +34,7 @@ public:
       bool operator<=(const String&)const;
       String operator+(const String&)const;
       String& operator+=(const String&)&;
-//      friend std::istream& operator>>(std::istream&, String&);
+      friend std::istream& operator>>(std::istream&, String&);
 public:
 	class iterator : public std::iterator<std::random_access_iterator_tag,char>
 	{

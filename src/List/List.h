@@ -72,6 +72,10 @@ private:
 	}
 	List<T>::iterator end()const
 	{
+		if (_head == nullptr)
+		{
+			return nullptr;
+		}
 		List<T>::iterator it = _tail->_next;
 		return it;
 	}

@@ -29,17 +29,17 @@ class RBTree
     ~RBTree();
     public:
 
-    void printBT(const Node* node);
-    void printBT(const std::string& prefix, const Node* node, bool isLeft);
-
-    bool    insert(const T& val);
+    void clear();
+    bool insert(const T& val);
+    Vector<T> print();
     private:
     void correctColors(Node*);
     void leftRotate(Node*);
     void rightRotate(Node*);
+    void printBT(const Node*, Vector<T>&);
+    void clear(Node*);
 
-
-    public: // must be privite
+    private: // must be privite
     Node* root{};
 };
 

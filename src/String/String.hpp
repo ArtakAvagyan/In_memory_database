@@ -30,6 +30,7 @@ String::String(const char* str)
 	{
 		_buffer[i] = str[i];
 	}
+	_buffer[_size]= '\0';
 }
 
 String::String(const String& str):_size{str._size},_capacity{str._capacity}

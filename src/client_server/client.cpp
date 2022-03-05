@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 #include "client.h"
 
 Socket_sender::Socket_sender()

@@ -1,6 +1,5 @@
 #include "forward_list.h"
 
-/* DEF. CONSTRUCTOR AND DESTRUCTOR */
 template <class T>
 Forward_list<T>::Forward_list()
 	: _size { 0 }, _head { nullptr }
@@ -12,18 +11,17 @@ Forward_list<T>::~Forward_list()
 	helperDeleteNodes();
 }
 
-/* PARAMETRIZED CONSTRUCTORS */
 template <class T>
 Forward_list<T>::Forward_list(size_t count, const T& data)
 	: _size { count } , _head{ nullptr }
 {
 	if (_size == 0) return;
-	this->_head = new Node<T>;
-	Node<T>* cur = _head;
+	this->_head = new Node;
+	Node* cur = _head;
 	cur->_data = data;
 	while (--count)
 	{
-		cur->_next = new Node<T>;
+		cur->_next = new Node;
 		cur = cur->_next;
 		cur->_data = data;
 	}
@@ -36,22 +34,21 @@ Forward_list<T>::Forward_list(std::initializer_list<T> src)
 {
 	if (_size == 0) return;
 
-	_head = new Node<T>;
-	Node<T>* cur = _head;
+	_head = new Node;
+	Node* cur = _head;
 	auto it = src.begin();
 	while (it != src.end())
 	{
 		cur->_data = *it;
 		it++;
 		if (it != src.end()) {
-			cur->_next = new Node<T>;
+			cur->_next = new Node;
 			cur = cur->_next;
 		}
 	}
 	cur->_next = nullptr;
 }
 
-/* COPY AND MOVE CONSTRUCTORS */
 template<class T>
 Forward_list<T>::Forward_list(const Forward_list<T>& oth)
 	: _size { oth._size }, _head { nullptr }
@@ -67,7 +64,7 @@ Forward_list<T>::Forward_list(Forward_list<T>&& src) noexcept
 	src._head = nullptr;
 	src._size = 0;
 }
-/* COPY AND MOVE ASSIGNMENT OPERATORS */
+
 template<class T>
 Forward_list<T>& Forward_list<T>::operator=(const Forward_list<T>& rhs)
 {
@@ -95,13 +92,12 @@ Forward_list<T>& Forward_list<T>::operator=(Forward_list<T>&& rhs) noexcept
 	return *this;
 }
 
-/* COMPARISON OPERATORS */
 template <class T>
 bool Forward_list<T>::operator==(const Forward_list<T>& rhs) const
 {
 	if (_size == rhs._size) {
-		Node<T>* cur = this->_head;
-		Node<T>* cur_2 = rhs._head;
+		Node* cur = this->_head;
+		Node* cur_2 = rhs._head;
 		while (cur->_next != nullptr) {
 			if (cur->_data != cur_2->_data) {
 				return false;
@@ -119,7 +115,7 @@ bool Forward_list<T>::operator!=(const Forward_list<T>& rhs) const
 {
 	return !(*this == rhs);
 }
-/* FUNCTIONS SUPPORTED BY FORWARD_LIST */
+
 template<class T>
 inline size_t Forward_list<T>::getSize() const noexcept
 {
@@ -139,12 +135,12 @@ void Forward_list<T>::push_back(const T& value)
 		push_front(value);
 	}
 	else {
-		Node<T>* prev = _head;
+		Node* prev = _head;
 		
 		while (prev->_next != nullptr) {
 			prev = prev->_next;
 		}
-		prev->_next = new Node<T>;
+		prev->_next = new Node;
 		
 		prev->_next->_data = value;
 		prev->_next->_next = nullptr;
@@ -155,8 +151,8 @@ void Forward_list<T>::push_back(const T& value)
 template<class T>
 void Forward_list<T>::push_front(const T& value)
 {
-	Node<T>* ptr = _head;
-	_head = new Node<T>;
+	Node* ptr = _head;
+	_head = new Node;
 	_head->_data = value;
 	_head->_next = ptr;
 	++_size;
@@ -165,7 +161,7 @@ void Forward_list<T>::push_front(const T& value)
 template<class T>
 void Forward_list<T>::pop_front()
 {
-	Node<T>* first = _head;
+	Node* first = _head;
 	_head = _head->_next;
 	delete first;
 	--_size;
@@ -178,11 +174,11 @@ void Forward_list<T>::pop_back()
 		throw std::invalid_argument("pop_back() failed due to empty list");
 	}
 	--_size;
-	Node<T>* last = _head;
+	Node* last = _head;
 	while (last->_next->_next != nullptr) {
 		last = last->_next;
 	}
-	Node<T>* toDelete = last->_next;
+	Node* toDelete = last->_next;
 	last->_next = nullptr;
 	delete toDelete;
 }
@@ -196,11 +192,11 @@ void Forward_list<T>::removeAt(size_t index)
 	}
 	else if (index == 0) pop_front();
 	else {
-		Node<T>* prev = _head;
-		for (int i = 0; i < index - 1; ++i)	{
+		Node* prev = _head;
+		for (int i = 0; i < index - 1; ++i) {
 			prev = prev->_next;
 		}
-		Node<T>* toDelete = prev->_next;
+		Node* toDelete = prev->_next;
 		prev->_next = toDelete->_next;
 
 		delete toDelete;
@@ -209,19 +205,19 @@ void Forward_list<T>::removeAt(size_t index)
 }
 
 template<class T>
-void Forward_list<T>::insertBefore(const int pos, const T& value)
+void Forward_list<T>::insertBefore(size_t pos, const T& value)
 {
-	if (pos < 0 || (size_t)pos >= _size) {
+	if (pos < 0 || pos >= _size) {
 		throw std::invalid_argument("Insertion failed due to invalid position.\n");
 	}
 	if (pos == 0) push_front(value);
 	else {
-		Node<T>* prev = _head;
+		Node* prev = _head;
 		for (int i = 0; i < pos - 1; ++i) {
 			prev = prev->_next;
 		}
-		Node<T>* cur = prev->_next;
-		prev->_next = new Node<T>;
+		Node* cur = prev->_next;
+		prev->_next = new Node;
 		prev = prev->_next;
 
 		prev->_data = value;
@@ -236,13 +232,13 @@ void Forward_list<T>::resize(size_t sz, const T& val) // works fine, debugger he
 {
 	if (_size == sz) return;
 	if (_size < sz) {
-		Node<T>* cur = _head;
+		Node* cur = _head;
 		while (cur->_next != nullptr) {
 			cur = cur->_next;
 		}
 		for (size_t i = _size; i < sz; ++i)
 		{
-			cur->_next = new Node<T>;
+			cur->_next = new Node;
 			cur = cur->_next;
 			cur->_data = val;
 			++_size;
@@ -250,13 +246,13 @@ void Forward_list<T>::resize(size_t sz, const T& val) // works fine, debugger he
 		cur->_next = nullptr;
 	}
 	else {
-		Node<T>* cur = _head;
+		Node* cur = _head;
 		while (--sz) {
 			cur = cur->_next;
 		}
-		Node<T>* forLastState = cur;
+		Node* forLastState = cur;
 		cur = cur->_next;
-		Node<T>* toDelete = cur;
+		Node* toDelete = cur;
 	
 		while(cur != nullptr)
 		{
@@ -270,46 +266,50 @@ void Forward_list<T>::resize(size_t sz, const T& val) // works fine, debugger he
 	}
 }
 
-/* FRONT AND BACK */
 template<class T>
 T& Forward_list<T>::front()
 {
 	return _head->_data;
 }
+
 template<class T>
 const T& Forward_list<T>::front() const
 {
 	return _head->_data;
 }
+
 template <class T>
 T& Forward_list<T>::back()
 {
-	Node<T>* last = _head;
+	Node* last = _head;
 	while (last->_next != nullptr)
 	{
 		last = last->_next;
 	}
 	return last->_data;
 }
+
 template <class T>
 const T& Forward_list<T>::back() const
 {
-	Node<T>* last = _head;
+	Node* last = _head;
 	while (last->_next != nullptr)
 	{
 		last = last->_next;
 	}
 	return last->_data;
 }
+
 template<class T>
 bool Forward_list<T>::isEmpty() const
 {
 	return _head == nullptr;
 }
+
 template<class T>
 size_t Forward_list<T>::findIndex(const T& value) const
 {
-	Node<T>* cur = _head;
+	Node* cur = _head;
 	size_t count = 0;
 	while (cur != nullptr)
 	{
@@ -320,12 +320,11 @@ size_t Forward_list<T>::findIndex(const T& value) const
 	return 0;
 }
 
-/* HELPER METHODS TO PREVENT CODE DUPLICATION */
 template <class T>
 void Forward_list<T>::helperDeleteNodes()
 {
 	_size = 0;
-	Node<T>* tmp = _head;
+	Node* tmp = _head;
 	while (_head != nullptr)
 	{
 		_head = tmp->_next;
@@ -337,21 +336,20 @@ void Forward_list<T>::helperDeleteNodes()
 template<class T>
 void Forward_list<T>::helperCopyingNodes(const Forward_list<T>& rhs)
 {
-	Node<T>* cur_2 = rhs._head;
-	this->_head = new Node<T>;
-	Node<T>* cur = _head;
+	Node* cur_2 = rhs._head;
+	this->_head = new Node;
+	Node* cur = _head;
 	cur->_data = cur_2->_data;
 
 	while (cur_2->_next != nullptr) {
 		cur_2 = cur_2->_next;
-		cur->_next = new Node<T>;
+		cur->_next = new Node;
 		cur = cur->_next;
 		cur->_data = cur_2->_data;
 	}
 	cur->_next = nullptr;
 }
 
-/* PRACTICE */
 template<class T>
 void Forward_list<T>::reverse() noexcept
 {
@@ -359,14 +357,48 @@ void Forward_list<T>::reverse() noexcept
 }
 
 template<class T>
-Forward_list<T>::Node<T>* Forward_list<T>::helperReverse(Forward_list<T>::Node<T>* head) noexcept
+typename Forward_list<T>::Node* Forward_list<T>::helperReverse(Forward_list<T>::Node* head) noexcept
 {
 	if (head == nullptr || head->_next == nullptr) return head;
-	Node<T>* ptr = helperReverse(head->_next);
+	Node* ptr = helperReverse(head->_next);
 	head->_next->_next = head;
 	head->_next = nullptr;
 	return ptr;
 }
-/* ITERATORS */
-//Forward_list<T>::iterator
 
+template <typename T>
+Forward_list<T>::iterator::iterator(Forward_list<T>::Node * b)
+	: _buf { b }
+{}		
+
+template <typename T>
+typename  Forward_list<T>::iterator& Forward_list<T>::iterator::operator++() & 
+{
+	_buf = _buf->_next;
+	return *this;
+}
+
+template <typename T>
+typename  Forward_list<T>::iterator& Forward_list<T>::iterator::operator++(int) &
+{
+	_buf = _buf->_next;
+	return *this;
+}
+
+template <typename T>
+T& Forward_list<T>::iterator::operator*()
+{
+	return _buf->_data;
+}
+
+template <typename T>
+bool Forward_list<T>::iterator::operator==(const Forward_list<T>::iterator it) const
+{
+	return this->_buf == it._buf;
+}
+
+template <typename T>
+bool Forward_list<T>::iterator::operator!=(const  Forward_list<T>::iterator it) const
+{
+	return this->_buf != it._buf;
+}

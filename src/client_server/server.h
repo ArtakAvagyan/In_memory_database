@@ -16,6 +16,7 @@
 
 #include <unistd.h>
 
+#include "../Parser/parser.h"
 using std::string;
 using std::cout;
 
@@ -44,7 +45,8 @@ class Socket_reciver
         char    recv_line[MAXLINE];
         int     pid;
         int     recv_line_len;
-        
+        Redis client;
+
         _connfd = *(int*)arg;
         pthread_detach(pthread_self());
 
@@ -58,17 +60,17 @@ class Socket_reciver
             bzero(recv_line, MAXLINE);
             n = recv(_connfd, recv_line, MAXLINE, 0);
             printf("recv_line : %s\n", recv_line);
-            if (!strcmp(recv_line, "EXIT") || !strcmp(recv_line, ""))
+            if (!strcmp(recv_line, "EXIT"))
                 break;
             if (n < 0)
             {
                 std::cerr <<  "ERROR on read";
-                exit(1);
+                break;
             }
-            // sleep(5);
-            string recvLine(recv_line);
-            recvLine += "\r";
-            send(_connfd, recvLine.c_str(), recvLine.size(), 0);
+            String recvLine(recv_line);
+	    recvLine = client.Parser(recvLine);
+	    recvLine += String("\n\r");
+            send(_connfd, &recvLine[0], recvLine.size(), 0);
         }
         close(_connfd);
         free(arg);
