@@ -5,7 +5,7 @@ C_OBJS		= ${CLIENT:.cpp=.o}
 CC		= g++
 RM		= rm -f
 THREADFLAG	= -lpthread
-CFLAGS		= #-Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
 %.o : %.c
 	${CC} ${CFLAGS} -c $< -o obj/${<:.c=.o}
