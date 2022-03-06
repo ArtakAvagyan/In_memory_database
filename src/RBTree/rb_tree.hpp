@@ -19,7 +19,9 @@ bool    RBTree<T>::insert(const T& val)
         else if (val > y->value)
         {
             y = y->r_child;
-        }
+        } else {
+		return false;
+	}
     }
     if (!x)
     {
@@ -75,7 +77,7 @@ void    RBTree<T>::correctColors(Node *current)
                 current->parrent->color = Node::BLACK;
                 uncle->color = Node::BLACK;
                 current = current->parrent->parrent;
-                // continue;
+                continue;
             }
             else if (current == current->parrent->l_child)
             {
