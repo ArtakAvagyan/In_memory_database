@@ -15,10 +15,8 @@
 #include "../List/List.h"
 #include "../RBTree/rb_tree.h"
 
-
 #include <iostream>
 #include <algorithm>
-#include <sstream> // escape if we can
 
 
 class Redis

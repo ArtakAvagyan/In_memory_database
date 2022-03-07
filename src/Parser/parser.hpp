@@ -27,7 +27,7 @@ String Redis::Parser(String& str)
 	}
 	catch(const std::out_of_range& )
 	{
-		return String("PLACE ENTER A VALID COMAND");
+		return String("Enter valid command, please.");
 	}
 	return String("Ok");
 }
@@ -200,7 +200,7 @@ String Redis::rPrintPQ(Redis* redis, const Vector<String>& tokens)
 
 String Redis::insertPQ(Redis* redis, const Vector<String>& tokens)
 {
-	if (4 > tokens.getSize()) { return "don't valid argument";}
+	if (4 > tokens.getSize()) { return "Argument is not valid";}
 	for ( size_t i = UTIL::PARAM ; i < tokens.getSize() ; i+=2 )
 	{
 		redis->_pq[tokens[UTIL::NAME]].insert(tokens[i],tokens[i+1]);
