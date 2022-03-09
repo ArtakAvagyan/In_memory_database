@@ -5,7 +5,7 @@ template <typename T>
 RBTree<T>::~RBTree(){}
 
 template <typename T>
-bool    RBTree<T>::insert(const T& val)
+bool RBTree<T>::insert(const T& val)
 {
     Node* x = nullptr;
     Node* y = root;
@@ -19,13 +19,14 @@ bool    RBTree<T>::insert(const T& val)
         else if (val > y->value)
         {
             y = y->r_child;
-        } else {
-		return false;
-	}
+        } 
+		else {
+			return false;
+		}
     }
     if (!x)
     {
-        root = new Node (val, Node::BLACK);
+        root = new Node(val, Node::BLACK);
         return true;
     }
     else if (val < x->value)
@@ -43,7 +44,7 @@ bool    RBTree<T>::insert(const T& val)
 }
 
 template <typename T>
-void    RBTree<T>::correctColors(Node *current)
+void RBTree<T>::correctColors(Node *current)
 {
     while (current->parrent && current->parrent->color == Node::RED)
     {
@@ -70,7 +71,7 @@ void    RBTree<T>::correctColors(Node *current)
         else // right
         {
             Node* uncle = current->parrent->parrent->l_child;
-            std::cout<<uncle<<std::endl;
+            //std::cout << uncle << std::endl;
             if (uncle && uncle->color == Node::RED)
             {
                 current->parrent->parrent->color = Node::RED;   /* 1 case */
@@ -94,7 +95,7 @@ void    RBTree<T>::correctColors(Node *current)
 }
 
 template <typename T>
-void    RBTree<T>::leftRotate(Node *current)
+void RBTree<T>::leftRotate(Node *current)
 {
     Node* y = current->r_child;
     current->r_child = y->l_child;
@@ -114,7 +115,7 @@ void    RBTree<T>::leftRotate(Node *current)
 }
 
 template <typename T>
-void    RBTree<T>::rightRotate(Node *x)
+void RBTree<T>::rightRotate(Node *x)
 {
     Node* y = x->l_child;
     x->l_child = y->r_child;
@@ -124,15 +125,16 @@ void    RBTree<T>::rightRotate(Node *x)
     y->parrent = x->parrent;
     if (x->parrent == nullptr) {
       this->root = y;
-    } else if (x == x->parrent->r_child) {
+    }
+	else if (x == x->parrent->r_child) {
       x->parrent->r_child = y;
-    } else {
+    }
+	else {
       x->parrent->l_child = y;
     }
     y->r_child = x;
     x->parrent = y;
 }
-
 
 template <typename T>
 void RBTree<T>::printBT(const Node* node,Vector<T>& res)
@@ -142,7 +144,6 @@ void RBTree<T>::printBT(const Node* node,Vector<T>& res)
 	res.push_back(node->value);
 	printBT(node->r_child,res);
 }
-
 
 template <typename T>
 Vector<T> RBTree<T>::print()
@@ -158,7 +159,6 @@ void RBTree<T>::clear()
 	clear(root);
 	root = nullptr;
 }
-
 
 template <typename T>
 void RBTree<T>::clear(Node * cur)

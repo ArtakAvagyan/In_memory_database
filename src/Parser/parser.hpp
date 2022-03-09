@@ -11,9 +11,9 @@ Redis::Redis(){
 		_function.insert(UTIL::SET::RPRINT , Redis::rPrintSet);
 		_function.insert(UTIL::SET::ERASE_F, Redis::ereseSet);
 		_function.insert(UTIL::PQ::PRINT_REV, Redis::rPrintPQ);
-		_function.insert(UTIL::MAP::PRINT , Redis::printPQ);
-		_function.insert(UTIL::MAP::INSERT , Redis::insertPQ);
-		_function.insert(UTIL::MAP::DEL_ELEM, Redis::delPQ);
+		_function.insert(UTIL::PQ::PRINT , Redis::printPQ);
+		_function.insert(UTIL::PQ::INSERT , Redis::insertPQ);
+		_function.insert(UTIL::PQ::DEL_ELEM, Redis::delPQ);
 		_function.insert(UTIL::STRING::ADD_STR, Redis::addString);
 		_function.insert(UTIL::STRING::GET_VAL, Redis::getString);
 		_function.insert(UTIL::STRING::CONCAT, Redis::concatString);
@@ -171,10 +171,11 @@ String Redis::printPQ(Redis* redis, const Vector<String>& tokens)
 	 size_t count{1};
 	 for (auto it : redis->_pq[tokens[UTIL::NAME]])
 	 {
-		if (it == "") {continue;}
 		str += UTIL::to_String(count++);
 		str += " -> ";
-		str += it ;
+		str += it.first;
+		str += "   ";
+		str += it.second; 
 		str.push_back('\n');
 	 }
 	 return str;
@@ -184,13 +185,15 @@ String Redis::rPrintPQ(Redis* redis, const Vector<String>& tokens)
 {
 	 String str ;
 	 size_t count{1};
-	 for (auto it = redis->_pq[tokens[UTIL::NAME]].end() ; it != resalt.begin() ;)
+	 for (auto it = redis->_pq[tokens[UTIL::NAME]].end() ; it != redis->_pq[tokens[UTIL::NAME]].begin() ;)
 	 {
 		--it;
-		if (*it == "") {continue;}
+		auto i = *it;
 		str += UTIL::to_String(count++);
 		str += " -> ";
-		str += *it ;
+		str += i.first;
+		str += "   ";
+		str += i.second;
 		str.push_back('\n');
 	 }
 	 return str;
@@ -203,12 +206,12 @@ String Redis::insertPQ(Redis* redis, const Vector<String>& tokens)
 	if (4 > tokens.getSize()) { return "Argument is not valid";}
 	for ( size_t i = UTIL::PARAM ; i < tokens.getSize() ; i+=2 )
 	{
-		redis->_pq[tokens[UTIL::NAME]].insert(tokens[i],tokens[i+1]);
+		redis->_pq[tokens[UTIL::NAME]].insert(pair<String,String>(tokens[i],tokens[i+1]));
 	}
 	return {"Ok"};
 }
 
-String Redis::insertPQ(Redis* redis, const Vector<String>& tokens)
+String Redis::delPQ(Redis* redis, const Vector<String>& tokens)
 {
 		redis->_pq[tokens[UTIL::NAME]].erase(redis->_pq[tokens[UTIL::NAME]].begin());
 	return {"Ok"};

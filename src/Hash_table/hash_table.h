@@ -42,7 +42,7 @@ struct pair
 		}
 		return first > other.first;
 	}
-	bool operator>(const pair& other)const
+	bool operator==(const pair& other)const
 	{
 		return ( first == other.first && second == other.second );
 	}

@@ -16,7 +16,7 @@ PQueue<T>::PQueue(PQueue&& rhs) noexcept
 {
 	this->_size = rhs._size;
 	this->_cap = rhs._cap;
-	this->_buffer = rhs.m_arr;
+	this->_buffer = rhs._buffer;
 	rhs._buffer = nullptr;
 	rhs._size = 0;
 	rhs._cap = 0;
@@ -29,7 +29,7 @@ PQueue<T>::PQueue(const PQueue<T>& other)
 	_size = other._size;
 	_buffer = new T[_cap];
 	for (int i = 0; i < _size; ++i) {
-		_buffer[i] = other.m_arr[i];
+		_buffer[i] = other._buffer[i];
 	}
 }
 
@@ -54,7 +54,7 @@ PQueue<T>& PQueue<T>::operator=(const PQueue& other)
 	if (_cap >= other._size) {
 		_size = other._size;
 		for (int i = 0; i < _size; ++i) {
-			_buffer[i] = other.m_arr[i];
+			_buffer[i] = other._buffer[i];
 		}
 	}
 	else {
@@ -63,7 +63,7 @@ PQueue<T>& PQueue<T>::operator=(const PQueue& other)
 		_size = other._size;
 		_buffer = new T[_cap];
 		for (int i = 0; i < _size; ++i) {
-			_buffer[i] = other.m_arr[i];
+			_buffer[i] = other._buffer[i];
 		}
 	}
 	return *this;
@@ -77,7 +77,7 @@ PQueue<T>& PQueue<T>::operator=(PQueue&& other)
 	}
 	this->_size = other._size;
 	this->_cap = other._cap;
-	this->_buffer = other.m_arr;
+	this->_buffer = other._buffer;
 	other._buffer = nullptr;
 	other._size = 0;
 	other._cap = 0;
@@ -92,11 +92,11 @@ PQueue<T> PQueue<T>::operator+(const PQueue& oth)
 	r._size = this->_size + oth._size;
 	r._buffer = new T[r._cap];
 	for (int i = 0; i < this->_size; ++i)
-		r._buffer[i] = this->m_arr[i];
+		r._buffer[i] = this->_buffer[i];
 	int i = 0;
 	for (int j = this->_size; j < r._size; ++j) {
 		i++;
-		r._buffer[j] = oth.m_arr[i];
+		r._buffer[j] = oth._buffer[i];
 	}
 	return r;
 }
